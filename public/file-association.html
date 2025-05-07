@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Associação de Arquivos Noteflow</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      color: #8a2be2;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 10px;
+    }
+    .instructions {
+      background-color: #f9f9f9;
+      border-left: 4px solid #8a2be2;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    code {
+      background-color: #f0f0f0;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: 'Courier New', Courier, monospace;
+    }
+    .note {
+      background-color: #fff8e1;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .windows, .mac, .linux {
+      margin-top: 30px;
+    }
+    h2 {
+      color: #6a1b9a;
+    }
+  </style>
+</head>
+<body>
+  <h1>Associar arquivos .note ao Noteflow</h1>
+  
+  <div class="instructions">
+    <p>Para associar arquivos .note ao Noteflow e usar o ícone personalizado, siga as instruções para seu sistema operacional:</p>
+  </div>
+
+  <div class="windows">
+    <h2>Windows</h2>
+    <ol>
+      <li>Baixe o arquivo <code>Noteflow-icon.ico</code> para seu computador</li>
+      <li>Clique com o botão direito em qualquer arquivo .note</li>
+      <li>Selecione "Abrir com" > "Escolher outro aplicativo"</li>
+      <li>Selecione o navegador que você usa para acessar o Noteflow</li>
+      <li>Marque a opção "Sempre usar este aplicativo para abrir arquivos .note"</li>
+      <li>Clique em "OK"</li>
+    </ol>
+    
+    <p>Para associar o ícone:</p>
+    <ol>
+      <li>Abra o Registro do Windows (digite regedit no menu Iniciar)</li>
+      <li>Navegue até <code>HKEY_CURRENT_USER\Software\Classes\.note</code></li>
+      <li>Crie uma nova chave chamada <code>DefaultIcon</code></li>
+      <li>Defina o valor padrão para o caminho completo do arquivo <code>Noteflow-icon.ico</code></li>
+    </ol>
+  </div>
+
+  <div class="mac">
+    <h2>macOS</h2>
+    <ol>
+      <li>Clique com o botão direito em um arquivo .note</li>
+      <li>Selecione "Obter Informações"</li>
+      <li>Na seção "Abrir com:", selecione seu navegador</li>
+      <li>Clique em "Alterar tudo..."</li>
+      <li>Confirme a alteração</li>
+    </ol>
+    
+    <p>Para associar o ícone no macOS, você precisará criar um aplicativo personalizado usando o Automator.</p>
+  </div>
+
+  <div class="linux">
+    <h2>Linux</h2>
+    <ol>
+      <li>Crie um arquivo <code>.desktop</code> em <code>~/.local/share/applications/</code></li>
+      <li>Adicione as seguintes linhas (ajuste conforme necessário):</li>
+    </ol>
+    <pre><code>[Desktop Entry]
+Type=Application
+Name=Noteflow
+Exec=seu_navegador %u
+Icon=/caminho/para/Noteflow-icon.ico
+MimeType=application/noteflow;
+Terminal=false
+Categories=Utility;</code></pre>
+    
+    <p>Em seguida, crie um arquivo MIME em <code>~/.local/share/mime/packages/noteflow.xml</code>:</p>
+    <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info"&gt;
+  &lt;mime-type type="application/noteflow"&gt;
+    &lt;comment&gt;Noteflow Note&lt;/comment&gt;
+    &lt;glob pattern="*.note"/&gt;
+  &lt;/mime-type&gt;
+&lt;/mime-info&gt;</code></pre>
+    
+    <p>Execute <code>update-mime-database ~/.local/share/mime</code> para atualizar.</p>
+  </div>
+
+  <div class="note">
+    <p><strong>Nota:</strong> Estas instruções podem variar dependendo da versão específica do seu sistema operacional. Se encontrar dificuldades, consulte a documentação do seu sistema.</p>
+  </div>
+</body>
+</html>

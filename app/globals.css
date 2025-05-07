@@ -1,0 +1,297 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5% 64.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 3.7% 15.9%;
+  }
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-background text-foreground;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[contenteditable] {
+  outline: none;
+}
+
+/* Estilos para o editor Tiptap */
+.ProseMirror p {
+  margin: 0.3em 0; /* Reduzido significativamente para minimizar o espaçamento entre parágrafos */
+  line-height: 1.0; /* Mantido o espaçamento simples entre linhas */
+}
+
+.ProseMirror [style*="line-height"] {
+  line-height: var(--line-height) !important;
+}
+
+.ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0.5em 0 0.3em;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0.5em 0 0.3em;
+}
+
+.ProseMirror h3 {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin: 0.5em 0 0.3em;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+  margin: 0.3em 0;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+  margin: 0.3em 0;
+}
+
+.ProseMirror li {
+  margin: 0.2em 0;
+}
+
+.ProseMirror a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid #e5e7eb;
+  padding-left: 1em;
+  margin: 0.3em 0;
+  color: #6b7280;
+}
+
+.ProseMirror pre {
+  background-color: #f3f4f6;
+  padding: 0.75em;
+  border-radius: 0.25em;
+  overflow-x: auto;
+  margin: 0.3em 0;
+}
+
+.ProseMirror code {
+  background-color: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  font-family: monospace;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #9ca3af;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Adicionar após os estilos existentes do ProseMirror */
+
+/* Espaçamento entre parágrafos */
+.ProseMirror p + p {
+  margin-top: 0.3em; /* Reduzido para minimizar o espaçamento entre parágrafos consecutivos */
+}
+
+/* Espaçamento após listas, citações e outros elementos */
+.ProseMirror ul + p,
+.ProseMirror ol + p,
+.ProseMirror blockquote + p,
+.ProseMirror h1 + p,
+.ProseMirror h2 + p,
+.ProseMirror h3 + p {
+  margin-top: 0.3em;
+}
+
+/* Espaçamento antes de listas, citações e outros elementos */
+.ProseMirror p + ul,
+.ProseMirror p + ol,
+.ProseMirror p + blockquote,
+.ProseMirror p + h1,
+.ProseMirror p + h2,
+.ProseMirror p + h3 {
+  margin-top: 0.3em;
+}
+
+/* Estilos para resultados de pesquisa */
+.search-result {
+  background-color: rgba(255, 213, 0, 0.4);
+  border-radius: 2px;
+}
+
+.current-search-result {
+  background-color: rgba(255, 165, 0, 0.7);
+}
+
+/* Estilos para o tema escuro do ProseMirror */
+.dark .ProseMirror blockquote {
+  border-left: 3px solid #374151;
+  color: #9ca3af;
+}
+
+.dark .ProseMirror pre,
+.dark .ProseMirror code {
+  background-color: #1f2937;
+}
+
+/* Adicionar transição suave para elementos que mudam com o tema */
+.ProseMirror,
+.ProseMirror blockquote,
+.ProseMirror pre,
+.ProseMirror code,
+button,
+input,
+header,
+.sidebar {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Estilos para o tema claro do ProseMirror */
+.light .ProseMirror a {
+  color: #2563eb;
+}
+
+.light .ProseMirror blockquote {
+  border-left: 3px solid #e5e7eb;
+  color: #4b5563;
+}
+
+.light .ProseMirror pre,
+.light .ProseMirror code {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+/* Estilos para o tema escuro do ProseMirror */
+.dark .ProseMirror a {
+  color: #60a5fa;
+}
+
+.dark .ProseMirror blockquote {
+  border-left: 3px solid #374151;
+  color: #9ca3af;
+}
+
+.dark .ProseMirror pre,
+.dark .ProseMirror code {
+  background-color: #1f2937;
+  color: #e5e7eb;
+}
+
+/* Estilos para resultados de pesquisa em ambos os temas */
+.light .search-result {
+  background-color: rgba(234, 179, 8, 0.3);
+}
+
+.light .current-search-result {
+  background-color: rgba(234, 88, 12, 0.4);
+}
+
+.dark .search-result {
+  background-color: rgba(255, 213, 0, 0.4);
+}
+
+.dark .current-search-result {
+  background-color: rgba(255, 165, 0, 0.7);
+}
+
+/* Animações personalizadas para toast */
+@keyframes custom-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes custom-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: custom-fade-in 2s ease-in forwards;
+}
+
+.toast-exit {
+  animation: custom-fade-out 2s ease-out forwards;
+}
+
+/* Borda com gradiente para a nota ativa */
+.active-note-border {
+  position: relative;
+  border-left: 5px solid transparent !important;
+  background-clip: padding-box !important;
+}
+
+.active-note-border::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: -5px !important;
+  bottom: 0 !important;
+  width: 5px !important;
+  background: linear-gradient(to bottom, #ffcbff, #aa2fef) !important;
+  border-radius: 5px 0 0 5px !important;
+  z-index: 10 !important;
+}

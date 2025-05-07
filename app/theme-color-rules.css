@@ -1,0 +1,15 @@
+/* Regras para converter cores com base no tema */
+
+/* No tema claro, converter texto branco para preto */
+.light [style*="color: #ffffff"],
+.light [style*="color: rgb(255, 255, 255)"],
+.light [style*="color: white"] {
+  color: #000000 !important;
+}
+
+/* No tema escuro, converter texto preto para branco */
+.dark [style*="color: #000000"],
+.dark [style*="color: rgb(0, 0, 0)"],
+.dark [style*="color: black"] {
+  color: #ffffff !important;
+}
