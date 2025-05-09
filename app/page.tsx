@@ -189,6 +189,16 @@ export default function Home() {
     event.target.value = ""
   }
 
+  // Adicionar uma nova função para lidar com o duplo clique em uma nota
+  const handleDoubleClickNote = (id: string) => {
+    // Selecionar a nota
+    setActiveNoteId(id)
+    // Fechar a sidebar se estiver em um dispositivo móvel
+    if (isMobile) {
+      setSidebarOpen(false)
+    }
+  }
+
   return (
     <div className="flex flex-col h-screen bg-background">
       <Header
@@ -209,6 +219,7 @@ export default function Home() {
             onSelectNote={setActiveNoteId}
             onDeleteNote={handleDeleteNote}
             className={isMobile ? "w-full absolute z-10 h-full bg-background" : "w-64"}
+            onDoubleClickNote={handleDoubleClickNote}
           />
         )}
 

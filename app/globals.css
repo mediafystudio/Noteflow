@@ -308,7 +308,7 @@ header,
 
   /* Ajustar tamanho de fonte para melhor legibilidade em telas pequenas */
   input[type="text"] {
-    font-size: 1.5rem !important;
+    font-size: 1.0rem !important;
   }
 
   /* Garantir que o sidebar quando aberto cubra toda a tela */
@@ -322,4 +322,37 @@ header,
     width: 100% !important;
     height: 100vh !important;
   }
+
+  /* Estilo para o botão de nova nota em dispositivos móveis */
+  header button[title="Nova Nota"] {
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(170, 47, 239, 0.4);
+    transform: scale(1);
+    transition: transform 0.2s ease;
+  }
+
+  header button[title="Nova Nota"]:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Efeito de toque para feedback visual */
+@keyframes touch-ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+}
+
+.touch-active {
+  animation: touch-ripple 0.3s ease-out;
 }

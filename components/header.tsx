@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { Settings, Moon, Sun, Menu, FilePlus } from "lucide-react"
+import { Settings, Moon, Sun, Menu, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -147,15 +147,16 @@ export default function Header({
         {isMobile ? (
           <Button
             onClick={onCreateNote}
-            className="h-9 w-9 rounded-full flex items-center justify-center text-white font-medium transition-opacity duration-300 hover:opacity-90"
+            className="h-12 w-12 rounded-full flex items-center justify-center text-white font-medium transition-opacity duration-300 hover:opacity-90 shadow-md"
             style={{
               background: "linear-gradient(to right, #ba9af2, #aa2fef)",
               border: "none",
               outline: "none",
             }}
             title="Nova Nota"
+            aria-label="Criar nova nota"
           >
-            <FilePlus className="h-4 w-4" />
+            <Plus className="h-6 w-6" />
           </Button>
         ) : (
           <button
@@ -167,7 +168,7 @@ export default function Header({
               outline: "none",
             }}
           >
-            <FilePlus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4 mr-2" />
             Nova Nota
           </button>
         )}
