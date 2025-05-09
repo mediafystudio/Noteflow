@@ -9,6 +9,9 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     background_color: "#1a2235",
     theme_color: "#1a2235",
+    orientation: "any",
+    scope: "/",
+    prefer_related_applications: false,
     icons: [
       {
         src: "/pwa-icons/icon-192x192.png",
@@ -25,6 +28,27 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/pwa-icons/icon-512x512.png",
         sizes: "512x512",
         type: "image/png",
+      },
+    ],
+    screenshots: [
+      {
+        src: "/pwa-screenshots/mobile-screenshot.png",
+        sizes: "750x1334",
+        type: "image/png",
+        form_factor: "narrow",
+      },
+      {
+        src: "/pwa-screenshots/desktop-screenshot.png",
+        sizes: "1280x800",
+        type: "image/png",
+        form_factor: "wide",
+      },
+    ],
+    shortcuts: [
+      {
+        name: "Nova Nota",
+        url: "/?new=true",
+        description: "Criar uma nova nota",
       },
     ],
   }

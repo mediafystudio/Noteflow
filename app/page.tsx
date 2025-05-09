@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast"
 import TiptapEditor from "@/components/tiptap-editor"
 import Sidebar from "@/components/sidebar"
 import Header from "@/components/header"
+import { WelcomePage } from "@/components/welcome-page"
 import type { Note } from "@/lib/types"
 import { exportToPdf, exportToTxt, exportToNote, importFromFile } from "@/lib/file-operations"
 import { useMobile } from "@/hooks/use-mobile"
@@ -26,6 +27,7 @@ export default function Home() {
 
   const [activeNoteId, setActiveNoteId] = useState<string | null>("1")
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [showWelcome, setShowWelcome] = useState(true)
   const { toast } = useToast()
 
   const isMobile = useMobile()
@@ -197,6 +199,11 @@ export default function Home() {
     if (isMobile) {
       setSidebarOpen(false)
     }
+  }
+
+  // Se a página de boas-vindas estiver ativa, mostrar apenas ela
+  if (showWelcome) {
+    return <WelcomePage onComplete={() => setShowWelcome(false)} />
   }
 
   return (

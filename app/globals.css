@@ -379,3 +379,54 @@ header,
 .touch-active {
   animation: touch-ripple 0.3s ease-out;
 }
+
+/* Adicionar ao final do arquivo */
+
+/* Estilos para a página de boas-vindas */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-animation {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.welcome-step {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.welcome-step.active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.welcome-step.inactive {
+  opacity: 0;
+  transform: translateX(20px);
+  pointer-events: none;
+}
+
+/* Estilos para os indicadores de passo */
+.step-indicator {
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Estilos para os botões da página de boas-vindas */
+.welcome-button {
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.welcome-button:hover {
+  opacity: 0.9;
+}
+
+.welcome-button:active {
+  transform: scale(0.98);
+}

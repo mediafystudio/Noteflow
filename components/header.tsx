@@ -8,6 +8,7 @@ import { useTheme } from "next-themes"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useRef, useEffect, useState } from "react"
 import { useMobile } from "@/hooks/use-mobile"
+import { InstallPWAButton } from "./install-pwa-button"
 
 interface HeaderProps {
   onCreateNote: () => void
@@ -129,6 +130,9 @@ export default function Header({
       </div>
 
       <div className="flex items-center space-x-2">
+        {/* Botão de instalação do PWA */}
+        <InstallPWAButton />
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon">
