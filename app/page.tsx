@@ -11,6 +11,7 @@ import Sidebar from "@/components/sidebar"
 import Header from "@/components/header"
 import type { Note } from "@/lib/types"
 import { exportToPdf, exportToTxt, exportToNote, importFromFile } from "@/lib/file-operations"
+import { useMobile } from "@/hooks/use-mobile"
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([
@@ -26,6 +27,8 @@ export default function Home() {
   const [activeNoteId, setActiveNoteId] = useState<string | null>("1")
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const { toast } = useToast()
+
+  const isMobile = useMobile()
 
   // Carregar notas do localStorage ao iniciar
   useEffect(() => {
@@ -195,6 +198,7 @@ export default function Home() {
         onExportNote={handleExportNote}
         onImportFile={handleImportFile}
         onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        sidebarOpen={sidebarOpen}
       />
 
       <div className="flex flex-1 overflow-hidden">
@@ -204,6 +208,7 @@ export default function Home() {
             activeNoteId={activeNoteId}
             onSelectNote={setActiveNoteId}
             onDeleteNote={handleDeleteNote}
+            className={isMobile ? "w-full absolute z-10 h-full bg-background" : "w-64"}
           />
         )}
 
@@ -220,7 +225,7 @@ export default function Home() {
           )}
         </main>
       </div>
-      <Toaster />
+      <Toaster position="bottom" />
     </div>
   )
 }

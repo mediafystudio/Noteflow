@@ -295,3 +295,31 @@ header,
   border-radius: 5px 0 0 5px !important;
   z-index: 10 !important;
 }
+
+/* Adicionar regras CSS para melhorar a responsividade em dispositivos móveis */
+
+/* Adicionar no final do arquivo: */
+/* Estilos específicos para dispositivos móveis */
+@media (max-width: 768px) {
+  /* Garantir que o conteúdo ocupe toda a largura */
+  .ProseMirror {
+    padding: 0.5rem !important;
+  }
+
+  /* Ajustar tamanho de fonte para melhor legibilidade em telas pequenas */
+  input[type="text"] {
+    font-size: 1.5rem !important;
+  }
+
+  /* Garantir que o sidebar quando aberto cubra toda a tela */
+  .sidebar-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    width: 100% !important;
+    height: 100vh !important;
+  }
+}

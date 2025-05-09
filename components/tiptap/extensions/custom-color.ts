@@ -92,62 +92,90 @@ export const CustomColor = Mark.create({
 
           // Se foi uma remoção intencional, não interferir
           if (intentionalRemovals) {
-            console.log("Remoção intencional detectada, não interferindo")
             return null
           }
 
           const tr = newState.tr
           let modified = false
 
-          // Verificar todos os nós de texto
-          newState.doc.descendants((node, pos) => {
-            if (node.isText) {
-              // Verificar se há marcas de formatação
-              const formatMarks = node.marks.filter((mark) =>
-                ["bold", "italic", "underline", "strike"].includes(mark.type.name),
-              )
+          try {
+            // Verificar todos os nós de texto
+            newState.doc.descendants((node, pos) => {
+              if (!node.isText) return true
 
-              // Verificar se há marca de cor
-              const colorMark = node.marks.find((mark) => mark.type.name === "customColor")
+              try {
+                // Verificar se há marcas de formatação
+                const formatMarks = node.marks.filter((mark) =>
+                  ["bold", "italic", "underline", "strike"].includes(mark.type.name),
+                )
 
-              // Se temos ambos, não precisamos fazer nada
-              if (formatMarks.length > 0 && colorMark) {
-                // Tudo bem, as marcas já estão aplicadas corretamente
-              }
+                // Verificar se há marca de cor
+                const colorMark = node.marks.find((mark) => mark.type.name === "customColor")
 
-              // Se temos apenas marcas de formatação, verificar se havia cor no estado anterior
-              else if (formatMarks.length > 0 && !colorMark) {
-                const oldNode = oldState.doc.nodeAt(pos)
-                if (oldNode) {
+                // Se temos ambos, não precisamos fazer nada
+                if (formatMarks.length > 0 && colorMark) {
+                  // Tudo bem, as marcas já estão aplicadas corretamente
+                  return true
+                }
+
+                // Se temos apenas marcas de formatação, verificar se havia cor no estado anterior
+                if (formatMarks.length > 0 && !colorMark) {
+                  // Verificar se a posição é válida no estado antigo
+                  if (pos < 0 || pos >= oldState.doc.content.size) {
+                    return true
+                  }
+
+                  const oldNode = oldState.doc.nodeAt(pos)
+                  if (!oldNode) return true
+
                   const oldColorMark = oldNode.marks.find((mark) => mark.type.name === "customColor")
                   if (oldColorMark) {
-                    // Reaplicar a marca de cor
-                    tr.addMark(pos, pos + node.nodeSize, oldColorMark)
-                    modified = true
+                    // Verificar se a posição + tamanho do nó está dentro dos limites
+                    const nodeSize = node.nodeSize || 1
+                    if (pos + nodeSize <= newState.doc.content.size) {
+                      // Reaplicar a marca de cor
+                      tr.addMark(pos, pos + nodeSize, oldColorMark)
+                      modified = true
+                    }
                   }
                 }
-              }
 
-              // Se temos apenas cor, verificar se havia marcas de formatação no estado anterior
-              else if (!formatMarks.length && colorMark) {
-                const oldNode = oldState.doc.nodeAt(pos)
-                if (oldNode) {
+                // Se temos apenas cor, verificar se havia marcas de formatação no estado anterior
+                else if (!formatMarks.length && colorMark) {
+                  // Verificar se a posição é válida no estado antigo
+                  if (pos < 0 || pos >= oldState.doc.content.size) {
+                    return true
+                  }
+
+                  const oldNode = oldState.doc.nodeAt(pos)
+                  if (!oldNode) return true
+
                   const oldFormatMarks = oldNode.marks.filter((mark) =>
                     ["bold", "italic", "underline", "strike"].includes(mark.type.name),
                   )
 
                   if (oldFormatMarks.length > 0) {
-                    // Reaplicar as marcas de formatação
-                    oldFormatMarks.forEach((mark) => {
-                      tr.addMark(pos, pos + node.nodeSize, mark)
-                    })
-                    modified = true
+                    // Verificar se a posição + tamanho do nó está dentro dos limites
+                    const nodeSize = node.nodeSize || 1
+                    if (pos + nodeSize <= newState.doc.content.size) {
+                      // Reaplicar as marcas de formatação
+                      oldFormatMarks.forEach((mark) => {
+                        tr.addMark(pos, pos + nodeSize, mark)
+                      })
+                      modified = true
+                    }
                   }
                 }
+              } catch (error) {
+                console.error("Erro ao processar nó:", error)
               }
-            }
-            return true
-          })
+
+              return true
+            })
+          } catch (error) {
+            console.error("Erro ao percorrer documento:", error)
+            return null
+          }
 
           return modified ? tr : null
         },

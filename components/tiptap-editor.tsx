@@ -13,6 +13,7 @@ import Link from "@tiptap/extension-link"
 import { Extension } from "@tiptap/core"
 import { useEffect, useState, useCallback, useRef } from "react"
 import { useTheme } from "next-themes"
+import { useMobile } from "@/hooks/use-mobile"
 import type { Note } from "@/lib/types"
 import { Toolbar } from "./tiptap/toolbar"
 import { TiptapBubbleMenu } from "./tiptap/bubble-menu"
@@ -72,6 +73,7 @@ export default function TiptapEditor({ note, onChange }: TiptapEditorProps) {
   const { resolvedTheme } = useTheme()
   const previousThemeRef = useRef(resolvedTheme)
   const processingThemeChangeRef = useRef(false)
+  const isMobile = useMobile()
 
   const editor = useEditor({
     extensions: [
@@ -209,18 +211,20 @@ export default function TiptapEditor({ note, onChange }: TiptapEditorProps) {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="border-b border-gray-200 dark:border-[#2a3548] p-1 flex items-center gap-2">
-        {editor && (
-          <>
-            <FontSelector editor={editor} />
-            <FontSizeSelector editor={editor} />
-            <CustomColorSelector editor={editor} />
-            <Separator orientation="vertical" className="h-8" />
-          </>
-        )}
-        <Toolbar editor={editor} />
-      </div>
+    <div className="flex flex-col h-full w-full">
+      {!isMobile && (
+        <div className="border-b border-gray-200 dark:border-[#2a3548] p-1 flex items-center gap-2">
+          {editor && (
+            <>
+              <FontSelector editor={editor} />
+              <FontSizeSelector editor={editor} />
+              <CustomColorSelector editor={editor} />
+              <Separator orientation="vertical" className="h-8" />
+            </>
+          )}
+          <Toolbar editor={editor} />
+        </div>
+      )}
 
       <div className="flex flex-col flex-1 overflow-hidden">
         <div className="p-4">

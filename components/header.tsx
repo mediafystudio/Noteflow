@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { useTheme } from "next-themes"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useRef, useEffect, useState } from "react"
+import { useMobile } from "@/hooks/use-mobile"
 
 interface HeaderProps {
   onCreateNote: () => void
@@ -15,6 +16,7 @@ interface HeaderProps {
   onExportNote: () => void
   onImportFile: (event: React.ChangeEvent<HTMLInputElement>) => void
   onToggleSidebar: () => void
+  sidebarOpen?: boolean
 }
 
 export default function Header({
@@ -24,10 +26,12 @@ export default function Header({
   onExportNote,
   onImportFile,
   onToggleSidebar,
+  sidebarOpen = false,
 }: HeaderProps) {
   const { setTheme, theme, resolvedTheme } = useTheme()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [mounted, setMounted] = useState(false)
+  const isMobile = useMobile()
 
   // Após a montagem do componente, podemos acessar o tema
   useEffect(() => {
@@ -51,7 +55,12 @@ export default function Header({
   return (
     <header className="flex items-center justify-between px-4 py-2 border-b">
       <div className="flex items-center">
-        <Button variant="ghost" size="icon" onClick={onToggleSidebar} className="mr-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onToggleSidebar}
+          className={`mr-2 ${isMobile && sidebarOpen ? "bg-accent" : ""}`}
+        >
           <Menu className="h-5 w-5" />
         </Button>
         <div className="flex items-center py-1.5">
@@ -135,18 +144,33 @@ export default function Header({
           {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
         </Button>
 
-        <button
-          onClick={onCreateNote}
-          className="flex items-center px-4 py-2 rounded-md text-white font-medium transition-opacity duration-300 hover:opacity-90"
-          style={{
-            background: "linear-gradient(to right, #ba9af2, #aa2fef)",
-            border: "none",
-            outline: "none",
-          }}
-        >
-          <FilePlus className="h-4 w-4 mr-2" />
-          Nova Nota
-        </button>
+        {isMobile ? (
+          <Button
+            onClick={onCreateNote}
+            className="h-9 w-9 rounded-full flex items-center justify-center text-white font-medium transition-opacity duration-300 hover:opacity-90"
+            style={{
+              background: "linear-gradient(to right, #ba9af2, #aa2fef)",
+              border: "none",
+              outline: "none",
+            }}
+            title="Nova Nota"
+          >
+            <FilePlus className="h-4 w-4" />
+          </Button>
+        ) : (
+          <button
+            onClick={onCreateNote}
+            className="flex items-center px-4 py-2 rounded-md text-white font-medium transition-opacity duration-300 hover:opacity-90"
+            style={{
+              background: "linear-gradient(to right, #ba9af2, #aa2fef)",
+              border: "none",
+              outline: "none",
+            }}
+          >
+            <FilePlus className="h-4 w-4 mr-2" />
+            Nova Nota
+          </button>
+        )}
       </div>
 
       <input

@@ -25,9 +25,10 @@ interface SidebarProps {
   activeNoteId: string | null
   onSelectNote: (id: string) => void
   onDeleteNote: (id: string) => void
+  className?: string
 }
 
-export default function Sidebar({ notes, activeNoteId, onSelectNote, onDeleteNote }: SidebarProps) {
+export default function Sidebar({ notes, activeNoteId, onSelectNote, onDeleteNote, className }: SidebarProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [noteToDelete, setNoteToDelete] = useState<string | null>(null)
 
@@ -51,7 +52,7 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onDeleteNot
   }
 
   return (
-    <div className="w-64 border-r flex flex-col">
+    <div className={`w-64 border-r flex flex-col ${className}`}>
       <div className="p-3">
         <input
           type="text"
