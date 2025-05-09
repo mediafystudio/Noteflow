@@ -31,11 +31,19 @@ export default function Header({
   const { setTheme, theme, resolvedTheme } = useTheme()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [mounted, setMounted] = useState(false)
+  const [buttonVisible, setButtonVisible] = useState(false)
   const isMobile = useMobile()
 
   // Após a montagem do componente, podemos acessar o tema
   useEffect(() => {
     setMounted(true)
+
+    // Adicionar um pequeno atraso antes de mostrar o botão para garantir que a animação seja visível
+    const timer = setTimeout(() => {
+      setButtonVisible(true)
+    }, 300)
+
+    return () => clearTimeout(timer)
   }, [])
 
   const handleImportClick = () => {
@@ -145,23 +153,25 @@ export default function Header({
         </Button>
 
         {isMobile ? (
-          <Button
-            onClick={onCreateNote}
-            className="h-12 w-12 rounded-full flex items-center justify-center text-white font-medium transition-opacity duration-300 hover:opacity-90 shadow-md"
-            style={{
-              background: "linear-gradient(to right, #ba9af2, #aa2fef)",
-              border: "none",
-              outline: "none",
-            }}
-            title="Nova Nota"
-            aria-label="Criar nova nota"
-          >
-            <Plus className="h-6 w-6" />
-          </Button>
+          <div className={buttonVisible ? "opacity-100" : "opacity-0"}>
+            <Button
+              onClick={onCreateNote}
+              className={`h-12 w-12 rounded-full flex items-center justify-center text-white font-medium transition-opacity duration-300 hover:opacity-90 shadow-md ${buttonVisible ? "new-note-button-animation" : ""}`}
+              style={{
+                background: "linear-gradient(to right, #ba9af2, #aa2fef)",
+                border: "none",
+                outline: "none",
+              }}
+              title="Nova Nota"
+              aria-label="Criar nova nota"
+            >
+              <Plus className="h-6 w-6" />
+            </Button>
+          </div>
         ) : (
           <button
             onClick={onCreateNote}
-            className="flex items-center px-4 py-2 rounded-md text-white font-medium transition-opacity duration-300 hover:opacity-90"
+            className={`flex items-center px-4 py-2 rounded-md text-white font-medium transition-opacity duration-300 hover:opacity-90 ${buttonVisible ? "new-note-button-animation" : ""}`}
             style={{
               background: "linear-gradient(to right, #ba9af2, #aa2fef)",
               border: "none",

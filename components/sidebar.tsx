@@ -58,8 +58,9 @@ export default function Sidebar({
     return titleMatch || contentMatch
   })
 
-  const handleDeleteClick = (id: string, e: React.MouseEvent) => {
+  const handleDeleteClick = (id: string, e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation()
+    e.preventDefault() // Impedir comportamento padrão
     setNoteToDelete(id)
   }
 
@@ -86,8 +87,6 @@ export default function Sidebar({
         {filteredNotes.length > 0 ? (
           <ul className="space-y-1 p-2">
             {filteredNotes.map((note) => (
-              // Adicionar o manipulador de duplo clique ao elemento li
-              // Substituir o elemento li existente com o seguinte:
               <li
                 key={note.id}
                 className={`rounded p-2 cursor-pointer transition-colors ${
@@ -156,9 +155,12 @@ export default function Sidebar({
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 flex-shrink-0 text-muted-foreground hover:text-destructive hover:bg-transparent"
+                    className="h-8 w-8 flex-shrink-0 text-muted-foreground hover:text-destructive hover:bg-transparent relative delete-button"
                     onClick={(e) => handleDeleteClick(note.id, e)}
+                    onTouchStart={(e) => handleDeleteClick(note.id, e)}
+                    aria-label="Excluir nota"
                   >
+                    <div className="absolute inset-0"></div>
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -198,6 +200,27 @@ export default function Sidebar({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <style jsx global>{`
+        @media (max-width: 768px) {
+          .delete-button {
+            position: relative;
+            z-index: 20;
+          }
+          
+          .delete-button:active,
+          .delete-button:focus {
+            background-color: rgba(239, 68, 68, 0.1) !important;
+            color: hsl(var(--destructive)) !important;
+          }
+          
+          .delete-button > div {
+            position: absolute;
+            inset: -8px;
+            z-index: -1;
+          }
+        }
+      `}</style>
     </div>
   )
 }
